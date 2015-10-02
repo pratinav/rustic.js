@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "title": "An extensive jQuery slider/carousel plugin",
   "description": "A simple albeit powerful jQuery plugin for creating elegant page by page scrolling.",
-  "main": [
-    "rustic.min.js"
-  ],
+  "main": "rustic.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pratinav/rustic.js"
@@ -17,7 +15,7 @@
     "slider",
     "page",
     "scroll",
-    "one"
+    "one",
     "responsive"
   ],
   "dependencies": {
