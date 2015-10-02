@@ -1,0 +1,32 @@
+{
+  "name": "rustic.js",
+  "main": ["rustic.min.js"],
+  "version": "1.0.0",
+  "homepage": "https://github.com/Pratinav/rustic.js",
+  "authors": [
+    "Pratinav Bagla <pratinavbagla@gmail.com> (http://pratinav.tk)"
+  ],
+  "description": "A simple albeit powerful jQuery plugin for creating elegant page by page scrolling.",
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "rustic",
+    "slider",
+    "page",
+    "scroll",
+    "one"
+    "responsive"
+  ],
+   "dependencies": {
+    "jquery": "*"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "package.json",
+    "test",
+    "tests"
+  ]
+}
