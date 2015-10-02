@@ -17,7 +17,7 @@
     "one",
     "responsive"
   ],
-   "dependencies": {
+  "dependencies": {
     "jquery": "*"
   },
   "license": "MIT",
@@ -28,5 +28,6 @@
     "package.json",
     "test",
     "tests"
-  ]
+  ],
+  "moduleType": []
 }
