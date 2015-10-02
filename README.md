@@ -29,10 +29,10 @@ Like this:
 
 ####Package Managers
 For [Bower](http://bower.io)-   
-```bower install rustic.js --save``` 
+`bower install rustic.js` 
 
 For [NPM](http://npmjs.com)-   
-```npm install rustic.js```   
+`npm install rustic.js`   
 
 ##Usage
 ####HTML
