@@ -179,7 +179,6 @@
 				if( !config.pagination && enabled) return;
 				var $currentPoint = $paginationPoints.filter('.active'),
 					newIndex = enabled ? getPos() : 0;
-				console.log(newIndex);
 				if (!enabled) {
 					var st = $(window).scrollTop();
 					for(var x = 0; x < pageCount; x++) {
