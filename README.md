@@ -24,7 +24,7 @@ Like this:
 ####CDN
 ```
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.rustic.js/1.0.0/rustic.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.rustic.js/latest/rustic.min.js"></script>
 ```
 
 ####Package Managers
