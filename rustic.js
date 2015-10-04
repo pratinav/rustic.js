@@ -340,7 +340,7 @@
 
 			var preventScroll = false,
 				touchStartY = initTop;
-			$wrapper.on({
+			$(window).on({
 				'DOMMouseScroll mousewheel wheel': function(e) {
 					if (!enabled) return;
 					if (!preventScroll) {
