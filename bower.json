@@ -1,7 +1,7 @@
 {
   "name": "rustic.js",
   "main": "rustic.min.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/Pratinav/rustic.js",
   "authors": [
     "Pratinav Bagla <pratinavbagla@gmail.com> (http://pratinav.tk)"
@@ -27,7 +27,8 @@
     "bower_components",
     "package.json",
     "test",
-    "tests"
+    "tests",
+	"index.html"
   ],
   "moduleType": []
 }

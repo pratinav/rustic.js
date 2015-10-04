@@ -1,5 +1,5 @@
 /*!====================================================
- * rustic.js 1.0.0  (http://pratinav.tk/rustic.js/)
+ * rustic.js 1.0.1  (http://pratinav.tk/rustic.js/)
  *=====================================================
  * @author: Pratinav Bagla (http://pratinav.tk)
  * @license: The MIT License (https://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt)
@@ -48,7 +48,7 @@
 			specificCallbacks: {}, // Specific callback functions before and after slide-change
 			breakingPoint: 0, // For breaking effect at specific width
 			easing: 'easeInOutQuad', // JS easing. if scrollbar: true
-			transitionDuration: 800, // Duration of slide transition
+			transitionDuration: 500, // Duration of slide transition
 			pagination: true, // For visibility of default pagination,
 			paginationWrapper: '<div class="rustic-pagination"></div>', // Element for pagination wrapper
 			paginationPoint: '<span class="rustic-pagination-point"></span>', // Element for pagination points
@@ -93,7 +93,8 @@
 				pageCount = $pages.length,
 				extraChildren = $wrapper.children().length - pageCount,
 				$paginationWrapper, $paginationPoints,
-				initIndex = 0, initPag = false;
+				initPag = false,
+				initTop = 0;
 
 			function initPagination() {
 				initPag = true;
@@ -138,9 +139,10 @@
 			}
 			if (config.pagination) initPagination();
 
-			$(window).scroll(function() {
-				if (initIndex !== true) {
-					var st = $(window).scrollTop(),
+			function initializeScrollPos() {
+				$(window).scroll(function() {
+					var initIndex = 0,
+						st = $(window).scrollTop(),
 						limit = $(document).height()-$(window).height();
 					for (var x = 0; x < pageCount; x++) {
 						var top = $pages.eq(x).offset().top;
@@ -149,31 +151,23 @@
 					}
 					if (st >= limit) initIndex = pageCount-1;
 					$pages.eq(initIndex).addClass('current');
+					initTop = $pages.eq(initIndex).offset.top;
 					if(config.pagination) $paginationPoints.eq(initIndex).addClass('active');
 			        $(window).unbind('scroll');
-				}
-		    });
-		    setTimeout(function() {
-				if ($(window).scrollTop()===0) {
-					$pages.eq(0).addClass('current');
-					if(config.pagination) $paginationPoints.eq(0).addClass('active');
-					initIndex = true;
-				}
-		    }, 10);
+				});
+				$(window).scroll();
+				resize();
+		    }
 
-		    function hidePagination() {
-		    	if (!initPag) return;
-				if (config.pagination) config.pagination = false;
-				if ($paginationWrapper.css('display') !== 'none') $paginationWrapper.hide();
-			}
-
-			function showPagination() {
-				if (!config.pagination) {
-					config.pagination = true;
-					if (!initPag) initPagination();
-				}
-				if ($paginationWrapper.css('display') === 'none') $paginationWrapper.show();
-			}
+			$(document).ready(function() {
+				setTimeout(initializeScrollPos, 100);
+				$(window).load(function() {
+					var st = $(window).scrollTop();
+					if ((st !== 0 && (enabled ? true: st < $pages.eq(0).outerHeight())) && getPos() === 0) {
+						initializeScrollPos();
+					}
+				});
+			});
 
 			function updatePagination() {
 				if( !config.pagination && enabled) return;
@@ -181,13 +175,14 @@
 					newIndex = enabled ? getPos() : 0;
 				if (!enabled) {
 					var st = $(window).scrollTop();
-					for(var x = 0; x < pageCount; x++) {
-						var current = $pages.eq(x).offset().top;
-						if (st >= current) newIndex = x;
-						else break;
-					}
 					if (st >= $(document).height()-$(window).height()) {
 						newIndex = pageCount-1;
+					} else {
+						for(var x = 0; x < pageCount; x++) {
+							var current = $pages.eq(x).offset().top - (0.5*$(window).height());
+							if (st >= current) newIndex = x;
+							else break;
+						}
 					}
 					if (newIndex !== getPos()) {
 						$pages.filter('.current').removeClass('current');
@@ -196,6 +191,24 @@
 				}
 				$currentPoint.removeClass('active');
 				$paginationPoints.eq(newIndex).addClass('active');
+			}
+
+		    function hidePagination() {
+		    	if (!initPag) return;
+				if (config.pagination) {
+					config.pagination = false;
+					updatePagination();
+				}
+				if ($paginationWrapper.css('display') !== 'none') $paginationWrapper.hide();
+			}
+
+			function showPagination() {
+				if (!config.pagination) {
+					config.pagination = true;
+					if (!initPag) initPagination();
+					updatePagination();
+				}
+				if ($paginationWrapper.css('display') === 'none') $paginationWrapper.show();
 			}
 
 			function moveDown() {
@@ -311,7 +324,6 @@
 				if(vw <= config.breakingPoint) unrustic();
 				else rerustic();
 			}
-			resize();
 			$(window).resize(resize);
 
 			if (config.pagination) {
@@ -324,20 +336,30 @@
 				});
 			}
 
-			var preventScroll = false;
-			$wrapper.on('DOMMouseScroll mousewheel', function(e) {
-				if (!enabled) return;
-				if (!preventScroll) {
-					if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) {
-						moveDown();
-					} else {
-						moveUp();
+			var preventScroll = false,
+				touchStartY = initTop;
+			$wrapper.on({
+				'DOMMouseScroll mousewheel wheel': function(e) {
+					if (!enabled) return;
+					if (!preventScroll) {
+						if (e.originalEvent.wheelDelta < 0 || e.originalEvent.detail > 0) moveDown();
+						else moveUp();
 					}
+					if(e.preventDefault) { e.preventDefault(); }
+					e.stopPropagation();
+				    e.returnValue = false;
+				    return false;
+				},
+				'touchstart': function(e) {
+					if (!enabled) return;
+					touchStartY = e.originalEvent.touches[0].clientY;
+				},
+				'touchend': function(e) {
+					if (!enabled) return;
+					var touchEndY = e.originalEvent.changedTouches[0].clientY;
+					if(touchStartY > touchEndY+5) moveDown();
+					else if(touchStartY < touchEndY-5) moveUp();
 				}
-				if(e.preventDefault) { e.preventDefault(); }
-				e.stopPropagation();
-			    e.returnValue = false;
-			    return false;
 			});
 
 			$(document).keydown(function(e) {
