@@ -1,5 +1,5 @@
 /*!====================================================
- * rustic.js 1.0.1  (http://pratinav.tk/rustic.js/)
+ * rustic.js 1.0.2  (http://pratinav.tk/rustic.js/)
  *=====================================================
  * @author: Pratinav Bagla (http://pratinav.tk)
  * @license: The MIT License (https://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt)
@@ -114,14 +114,15 @@
 							'-webkit-transform: translateY(-50%);'+
 							'-ms-transform: translateY(-50%);'+
 							'transform: translateY(-50%);'+
-							'left: 10px;'+
+							'right: 10px;'+
 						'}'+
 						paginationSelector+'{'+
 						'box-sizing: border-box;'+
 						'height: 16px;'+
 						'width: 16px;'+
 						'border-radius: 50%;'+
-						'border: 3px solid rgba(255,255,255,0.4);'+
+						'border: 3px solid white;'+
+						'opacity: 0.4;'+
 						'display: block;'+
 						'margin: 10px 0;'+
 						'cursor: pointer;'+
@@ -130,9 +131,10 @@
 						'}'+
 						paginationSelector+'.active {'+
 							'background: white;'+
+							'opacity: 1'+
 						'}'+
 						paginationSelector+':hover {'+
-							'border-color: white;'+
+							'opacity: 1'+
 						'}'
 					);
 				}
@@ -359,6 +361,9 @@
 					var touchEndY = e.originalEvent.changedTouches[0].clientY;
 					if(touchStartY > touchEndY+5) moveDown();
 					else if(touchStartY < touchEndY-5) moveUp();
+				},
+				'touchmove': function(e) {
+					if(e.preventDefault) { e.preventDefault(); }
 				}
 			});
 
