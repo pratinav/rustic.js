@@ -383,7 +383,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -407,7 +407,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -431,7 +431,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -455,7 +455,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -479,7 +479,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -503,7 +503,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -527,7 +527,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
@@ -551,7 +551,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 		transitionDuration: 700
 	});
@@ -579,7 +579,7 @@ Example:
 
 ```
 $(document).ready(function() {
-	$('#main')rustic({
+	$('#main').rustic({
 		//Some options
 	});
 
