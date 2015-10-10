@@ -1,6 +1,6 @@
 {
   "name": "rustic.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple albeit powerful jQuery plugin for creating elegant page by page scrolling.",
   "main": "rustic.min.js",
   "directories": {
