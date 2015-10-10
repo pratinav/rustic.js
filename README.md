@@ -87,7 +87,7 @@ For the rest of the docs we will refer to the outermost element as the **wrapper
 All your content for each slide should go inside the innermost elements, as illustrated above.
 
 
-The **wrapper** is not limited to any specific elements or Class/ID names. You may use custom **page elements** as long as you mention the selector in the [plugin settings](#advance-usage--settings). So this too can be used-
+The **wrapper** or **page elements** are not limited to any specific elements or Class/ID names. So this too can be used-
 
 ```
 <section>
@@ -97,7 +97,7 @@ The **wrapper** is not limited to any specific elements or Class/ID names. You m
 </section>
 ```
 
-**You may insert other non-page elements in the wrapper element, and the rest will be taken care of.**
+**Only insert page elements in the wrapper.**
 
 
 ####CSS
@@ -114,9 +114,7 @@ Put the following code in ```script``` tags in the ```head``` tag of your HTML d
 ```
 $(document).ready(function(){
 	// Make sure to call rustic on the wrapper element
-	$('yourWrapperElementHere').rustic({
-		element: 'yourPageElementHere'
-	});
+	$('yourWrapperElementHere').rustic();
 });
 ```
 
@@ -130,7 +128,6 @@ You can pass in multiple options as arguments for the `.rustic()` function. They
 
 ```
 $('yourWrapperElementHere').rustic.js({
-	element: 'section', // Element used for pages
 	looping: false, // For looping at the end of slides,
 	defaultCallback: [ // Default callback function before/after all slide-changes
 		function() {}, // Before
@@ -150,8 +147,8 @@ $('yourWrapperElementHere').rustic.js({
 	easing: 'easeInOutQuad', // JS easing
 	transitionDuration: 800, // Duration of slide transition
 	pagination: true, // For visibility of default pagination,
-	paginationWrapper: '<div class="rustic-pagination"></div>', // Element for pagination wrapper
-	paginationPoint: '<span class="rustic-pagination-point"></div>', // Element for pagination points
+	paginationWrapper: ['div.rustic-pagination', ''], // Element for pagination wrapper
+	paginationPoint: ['span.rustic-pagination-point', ''], // Element for pagination points
 	paginationCss: true, // For default pagination styles
 	specificPaginationPoints: { // Element for specific pagination points. Only if paginationCss is false.
 		1: '<span class="rustic-pagination-point custom"></div>' // Pagination number. Corresponds to page number
@@ -161,7 +158,6 @@ $('yourWrapperElementHere').rustic.js({
 
 | Setting Name | Value | Description | Default |
 |--------------|-------|-------------|---------|
-| element | string | Selector for the page element. | 'section' |
 | looping | boolean | Selects if looping is one. true is looping. | false |
 | defaultCallback | array > 2 functions | [More information below.](#default-callback) | empty |
 | specificCallbacks | object > arrays > 2 functions | [More information below.](#specific-callbacks) | empty |
@@ -169,10 +165,10 @@ $('yourWrapperElementHere').rustic.js({
 | easing | string | JS Easing for transitions. Default options are- `easeInOutQuad`, `linear` and `swing`. For more options you may use the [jQuery Easing plugin](http://gsgd.co.uk/sandbox/jquery/easing/) | 'easeInOutQuad' |
 | transitionDuration | integer | Selects the transition-duration for the slide changes in milliseconds | 800 |
 | pagination | boolean | Selects if pagination is present or absent. true is present. | true |
-| paginationWrapper | string | The wrapper element of the pagination. | '<div class="rustic-pagination"></div>' |
-| paginationPoint | string | The point elements of the pagination. | '<span class="rustic-pagination-point"></div>' |
+| paginationWrapper | array > string * 2 | Selector for the pagination wrapper. Array containing two strings. The first string is the Element followed by an optional id or multiple classes. Multiple classes must be separated by periods. The second string is optional content. | ['div.rustic-pagination', ''] |
+| paginationPoint | array > string * 2 | Selector for each pagination point. Array containing two strings. The first string is the Element followed by an optional id or multiple classes. Multiple classes must be separated by periods. The second string is optional content. | ['div.rustic-pagination', ''] |
 | paginationCss | boolean | [More information below.](#pagination-css) | true |
-| specificPaginationPoints | object > strings | [More information below.](#specific-pagination-points) | empty |
+| specificPaginationPoints | object > arrays > string * 2 | [More information below.](#specific-pagination-points) | empty |
 
 
 
@@ -309,9 +305,9 @@ You may have different elements (tag, class, ID, content) for different paginati
 $(wrapperElement).rustic({
 	// Some options,
 	specificPaginationPoints: {
-		1: '<span class="rustic-pagination-point custom"></span>', // First pagination-point
-		3: '<span class="rustic-pagination-point anyClass" id="anyId"></span>', // Third pagination-point
-		7: '<div class="differentTagsToo"></div>' // Seventh pagination-point
+		1: ['span.rustic-pagination-point custom', 'someContent'], // First pagination-point
+		3: ['span.rustic-pagination-point.anyClass#anyID', 'someContent2'], // Third pagination-point
+		7: ['div.anyElement', 'someContent3'] // Seventh pagination-point
 	}
 });
 ```

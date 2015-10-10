@@ -1,110 +1,107 @@
-/*!====================================================
- * rustic.js 1.0.2  (http://pratinav.tk/rustic.js/)
- *=====================================================
- * @author: Pratinav Bagla (http://pratinav.tk)
- * @license: The MIT License (https://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt)
- *=====================================================*/
- /*
- * The MIT License (MIT)
- *
- * Copyright (c) 2015 Pratinav Bagla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+/*!
+ * rustic.js 1.0.3  (http://pratinav.tk/rustic.js/)
+ * (c) 2015 Pratinav Bagla (http://pratinav.tk)
+ * Released under the MIT license (https://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt)
  **/
 
- (function($){
- 	// easeInOut
+ (function($) {
+ 	/**
+ 	* Included easeInOutQuad animation
+ 	*/
  	$.extend( $.easing,{
  		easeInOutQuad: function (x, t, b, c, d) {
 			if ((t/=d/2) < 1) return c/2*t*t + b;
 			return -c/2 * ((--t)*(t-2) - 1) + b;
 		}
  	});
+
+	/**
+	* Get DOM element from selector
+	*/
+	function getElementString(arr, content) {
+		if (content===undefined) {
+			content = '';
+		}
+		var tag = '',
+			classes = '',
+			id = '',
+			current = 'tag';
+		for (var x = 0; x < arr.length; x++) {
+			var ch = arr[x];
+			if (ch==='.') {
+				classes += x>1 ? ' ' : '';
+				current = 'class';
+				continue;
+			} else if (ch === '#') {
+				current = 'id';
+				continue;
+			}
+			if (current === 'tag') {
+				tag += ch;
+			} else if (current === 'class') {
+				classes += ch;
+			} else if (current==='id') {
+				id += ch;
+			}
+		}
+		el = '<'+tag;
+		if (id !== '') el += ' id=\"'+id+'\"';
+		if (classes !== '') el += ' class=\"' + classes + '\"';
+		el += '>'+content+'</'+tag+'>';
+		return el;
+	}
+
  	$.fn.rustic = function(options) {
- 		// Declare all options.
+ 		/**
+ 		* Declare all settings
+ 		*/
 		var config = $.extend({
-			element: 'section', // Element used for pages
-			looping: false, // For looping at the end of slides,
+			looping: false,
 			defaultCallback: [
-				function() {}, // Before
-				function() {} // After
-			], // Default callback function before and after slide-change
-			specificCallbacks: {}, // Specific callback functions before and after slide-change
-			breakingPoint: 0, // For breaking effect at specific width
-			easing: 'easeInOutQuad', // JS easing. if scrollbar: true
-			transitionDuration: 500, // Duration of slide transition
-			pagination: true, // For visibility of default pagination,
-			paginationWrapper: '<div class="rustic-pagination"></div>', // Element for pagination wrapper
-			paginationPoint: '<span class="rustic-pagination-point"></span>', // Element for pagination points
-			paginationCss: true, // For default pagination styles
-			specificPaginationPoints: {} // Element for specific pagination points
+				function() {},
+				function() {} 
+			],
+			specificCallbacks: {},
+			breakingPoint: 0,
+			easing: 'easeInOutQuad',
+			transitionDuration: 500,
+			pagination: true,
+			paginationWrapper: ['div.rustic-pagination', ''],
+			paginationPoint: ['span.rustic-pagination-point', ''],
+			paginationCss: true, 
+			specificPaginationPoints: {}
 		}, options);
 
 		return this.each(function() {
 
-			// get selector name for custom pagination elements
-			function getSelectorName(el) {
-				var selector = el
-			        .parents()
-			        .map(function() { return this.tagName.toLowerCase(); })
-			        .get()
-			        .reverse()
-			        .concat([this.nodeName])
-			        .join(">");
-			   	selector+=el.prop("tagName").toLowerCase();
-			    var id = el.attr("id");
-			    if (id) {
-			      selector += "#"+ id;
-			    }
 
-			    var classNames = el.attr("class");
-			    if (classNames) {
-			      selector += "." + $.trim(classNames).replace(/\s/gi, ".");
-			    }
-
-			    return selector;
-			}
-
-			function getPos() {
-				for (var x = 0; x < pageCount; x++) {
-					if ($pages.eq(x).hasClass('current')) return x;
-				}
-			}
-
+			/**
+			* Declare and initalize vars
+			*/
 			var enabled = true,
 				$wrapper = $(this),
-				$pages = $wrapper.children(config.element),
+				$pages = $wrapper.children(),
 				pageCount = $pages.length,
-				extraChildren = $wrapper.children().length - pageCount,
-				$paginationWrapper, $paginationPoints,
-				initPag = false,
-				initTop = 0;
+				$paginationWrapper,
+				$paginationPoints,
+				initPag = false;
 
+
+			/**
+			* Initialize pagination
+			*/
 			function initPagination() {
 				initPag = true;
-				$wrapper.append(config.paginationWrapper);
+				$wrapper.append(getElementString(config.paginationWrapper[0], config.paginationWrapper[1]));
 				$paginationWrapper = $wrapper.children().last();
-				for (var x = 0; x < pageCount; x++) $paginationWrapper.append(config.specificPaginationPoints.hasOwnProperty(x+1) ? config.specificPaginationPoints[x+1]:config.paginationPoint);
+				var paginationString = getElementString(config.paginationPoint[0], config.paginationPoint[1]);
+				for (var x = 0; x < pageCount; x++) {
+					$paginationWrapper.append(config.specificPaginationPoints.hasOwnProperty(x+1) ? getElementString(config.specificPaginationPoints[x+1][0], config.specificPaginationPoints[x+1][1]):paginationString);
+				}
 				$paginationPoints = $paginationWrapper.children();
 				if (config.paginationCss) {
-					var paginationWrapperSelector = getSelectorName($paginationWrapper),
-						paginationSelector = getSelectorName($paginationPoints.not('.active'));
+					var paginationWrapperSelector = config.paginationWrapper[0],
+						paginationSelector = config.paginationPoint[0];
 					if (!$('style').length) $('head').append('<style type="text/css"></style>');
 					var $style = $('style');
 					$style.append(
@@ -139,177 +136,137 @@
 					);
 				}
 			}
-			if (config.pagination) initPagination();
 
-			function initializeScrollPos() {
-				$(window).scroll(function() {
-					var initIndex = 0,
-						st = $(window).scrollTop(),
-						limit = $(document).height()-$(window).height();
-					for (var x = 0; x < pageCount; x++) {
-						var top = $pages.eq(x).offset().top;
-						if (st >= top) initIndex = x;
-						else break;
-					}
-					if (st >= limit) initIndex = pageCount-1;
-					$pages.eq(initIndex).addClass('current');
-					initTop = $pages.eq(initIndex).offset.top;
-					if(config.pagination) $paginationPoints.eq(initIndex).addClass('active');
-			        $(window).unbind('scroll');
-				});
-				$(window).scroll();
-				resize();
-		    }
 
-			$(document).ready(function() {
-				setTimeout(initializeScrollPos, 100);
-				$(window).load(function() {
-					var st = $(window).scrollTop();
-					if ((st !== 0 && (enabled ? true: st < $pages.eq(0).outerHeight())) && getPos() === 0) {
-						initializeScrollPos();
-					}
-				});
-			});
-
-			function updatePagination() {
-				if( !config.pagination && enabled) return;
-				var $currentPoint = $paginationPoints.filter('.active'),
-					newIndex = enabled ? getPos() : 0;
-				if (!enabled) {
-					var st = $(window).scrollTop();
-					if (st >= $(document).height()-$(window).height()) {
-						newIndex = pageCount-1;
-					} else {
-						for(var x = 0; x < pageCount; x++) {
-							var current = $pages.eq(x).offset().top - (0.5*$(window).height());
-							if (st >= current) newIndex = x;
-							else break;
-						}
-					}
-					if (newIndex !== getPos()) {
-						$pages.filter('.current').removeClass('current');
-						$pages.eq(newIndex).addClass('current');
-					}
-				}
-				$currentPoint.removeClass('active');
-				$paginationPoints.eq(newIndex).addClass('active');
-			}
-
+			/**
+			* Hide pagination
+			*/
 		    function hidePagination() {
 		    	if (!initPag) return;
-				if (config.pagination) {
-					config.pagination = false;
-					updatePagination();
-				}
+				if (config.pagination) config.pagination = false;
 				if ($paginationWrapper.css('display') !== 'none') $paginationWrapper.hide();
 			}
 
+
+			/**
+			* Show pagination
+			*/
 			function showPagination() {
 				if (!config.pagination) {
 					config.pagination = true;
 					if (!initPag) initPagination();
-					updatePagination();
 				}
 				if ($paginationWrapper.css('display') === 'none') $paginationWrapper.show();
 			}
 
-			function moveDown() {
-				var currentPage = $pages.filter('.current'),
-					currentIndex = getPos(),
-					nextPage, nextIndex;
-				if (!(!config.looping && currentIndex+1 === pageCount)) {
-					preventScroll = true;
-					nextIndex = currentIndex+1 === pageCount ? 0 : currentIndex+1;
-					nextPage = $pages.eq(nextIndex);
-					var callback = config.specificCallbacks.hasOwnProperty(nextIndex+1) ? config.specificCallbacks[nextIndex+1]:config.defaultCallback,
-						limit = $(document).height()-$(window).height(),
-						target = nextPage.offset().top;
-					if (target >= limit) {
-						nextIndex = pageCount-1;
-						nextPage = $pages.eq(nextIndex);
-						target = limit;
-					}
-					currentPage.removeClass('current');
-					nextPage.addClass('current');
-					callback[0]();
-					$('html body').animate({
-			            scrollTop: target
-			        }, config.transitionDuration, config.easing, function() {
-			        	callback[1]();
-				        setTimeout(function() {preventScroll = false;}, 500);
-			        });
-			        updatePagination();
-				}
-			}
 
-			function moveUp() {
-				var currentPage = $pages.filter('.current'),
-					currentIndex = getPos(),
-					nextPage, nextIndex;
-				if (!(!config.looping && currentIndex === 0)) {
-					preventScroll = true;
-					nextIndex = currentIndex === 0 ? pageCount-1 : currentIndex-1;
-					nextPage = $pages.eq(nextIndex);
-					var callback = config.specificCallbacks.hasOwnProperty(nextIndex+1) ? config.specificCallbacks[nextIndex+1]:config.defaultCallback,
-						limit = $(document).height()-$(window).height(),
-						target = nextPage.offset().top >= limit ? limit : nextPage.offset().top;
-					if (currentPage.offset().top >= limit) {
-						for (var x = currentIndex; x >= 0; x--) {
-							if ($pages.eq(x).offset().top < limit) {
-								nextIndex = x;
-								nextPage = $pages.eq(nextIndex);
-								target = nextPage.offset().top;
-								break;
-							}
-						}
-					}
-					currentPage.removeClass('current');
-					nextPage.addClass('current');
-					callback[0]();
-					$('html body').animate({
-			            scrollTop: target
-			        }, config.transitionDuration, config.easing, function() {
-						callback[1]();
-				        setTimeout(function() {preventScroll = false;}, 500);
-			        });
-			        updatePagination();
-				}
-			}
-
+			/**
+			* Move to desired page
+			* @param place: Desires page no. (index + 1)
+			*/
 			function moveTo(place) {
-				var currentPage = $pages.filter('.current'),
-					currentIndex = getPos(),
-					nextIndex = place-1,
+				var $currentPage = $pages.filter('.active'),
+					currentIndex = $currentPage.index(),
+					nextIndex = place-1;
+				if (nextIndex === currentIndex) return;
+
+				if (nextIndex < 0) nextIndex = pageCount-1;
+				else if (nextIndex >= pageCount) nextIndex = 0;
+				preventScroll = true;
+				var nextPage = $pages.eq(nextIndex),
+					callback = config.specificCallbacks.hasOwnProperty(nextIndex+1) ? config.specificCallbacks[nextIndex+1]:config.defaultCallback,
+					limit = $(document).height()-$(window).height(),
+					target = nextPage.offset().top;
+
+				if (target >= limit) {
+					nextIndex = pageCount-1;
 					nextPage = $pages.eq(nextIndex);
-				if (nextPage.length > 0) {
-					preventScroll = true;
-					var callback = config.specificCallbacks.hasOwnProperty(nextIndex+1) ? config.specificCallbacks[nextIndex+1]:config.defaultCallback,
-						limit = $(document).height()-$(window).height(),
-						target = nextPage.offset().top;
-					if (target >= limit) {
-						nextIndex = pageCount-1;
-						nextPage = $pages.eq(nextIndex);
-						target = limit;
-					}
-					currentPage.removeClass('current');
-					nextPage.addClass('current');
-					callback[0]();
-					$('html body').animate({
-			            scrollTop: target
-			        }, config.transitionDuration, config.easing, function() {
-			        	callback[1]();
-				        setTimeout(function() {preventScroll = false;}, 500);
-			        });
-			        updatePagination();
+					target = limit;
 				}
+
+				$currentPage.removeClass('active');
+		        $paginationPoints.eq(currentIndex).removeClass('active');
+				nextPage.addClass('active');
+		        $paginationPoints.eq(nextIndex).addClass('active');
+				callback[0]();
+				$('html body').animate({
+		            scrollTop: target
+		        }, config.transitionDuration, config.easing, function() {
+		        	callback[1]();
+			        setTimeout(function() {preventScroll = false;}, 500);
+		        });
 			}
 
+
+			/**
+			* Move down one page
+			*/
+			function moveDown() {
+				var currentPage = $pages.filter('.active').index();
+				moveTo(currentPage+2);
+			}
+
+
+			/**
+			* Move up one page
+			*/
+			function moveUp() {
+				var currentPage = $pages.filter('.active').index();
+				moveTo(currentPage);
+			}
+
+
+			/**
+			* Update pagination with scrolling
+			*/
+			function updatePagination() {
+				if(enabled || !config.pagination) return;
+				var $currentPoint = $paginationPoints.filter('.active'),
+					pageIndex = $pages.filter('.active').index(),
+					newIndex = enabled ? pageIndex : 0,
+					st = $(window).scrollTop();
+				if (st >= $(document).height()-$(window).height()) {
+					newIndex = pageCount-1;
+				} else {
+					for(var x = 0; x < pageCount; x++) {
+						var current = $pages.eq(x).offset().top - (0.5*$(window).height());
+						if (st >= current) newIndex = x;
+						else break;
+					}
+				}
+				if (newIndex === pageIndex) return;
+				$pages.filter('.active').removeClass('active');
+				$currentPoint.removeClass('active');
+				$pages.eq(newIndex).addClass('active');
+				$paginationPoints.eq(newIndex).addClass('active');
+			}
+
+
+			/**
+			* Init function
+			*/
+			function init() {
+				if (config.pagination) initPagination();
+				$pages.eq(0).addClass('active');
+				$paginationPoints.eq(0).addClass('active');
+			}
+			init();
+
+
+			/**
+			* Stop the one page effect
+			*/
 			function unrustic() {
 				if (enabled) {
 					enabled = false;
 					$(window).bind('scroll', updatePagination);
 				}
 			}
+
+
+			/**
+			* Revive the effect/reset the settings
+			*/
 			function rerustic(reset) {
 				if (!enabled) {
 					enabled = true;
@@ -321,26 +278,32 @@
 				}
 			}
 
+			/**
+			* Check for breaking point
+			*/
 			function resize(e) {
 				var vw = $(window).width();
 				if(vw <= config.breakingPoint) unrustic();
 				else rerustic();
 			}
-			$(window).resize(resize);
 
-			if (config.pagination) {
-				$paginationPoints.bind('click', function(e) {
-					var currentPageIndex = getPos(),
-						newIndex = $(this).index();
-					if (newIndex === currentPageIndex) return;
-					moveTo($(this).index()+1);
-					updatePagination();
-				});
-			}
 
+			/**
+			* Event handler for pagination click
+			*/
+			$paginationPoints.click(function(e) {
+				moveTo($(this).index()+1);
+			});
+
+
+			/**
+			* Event handling for- resize, mouse-scroll and touch
+			*/
 			var preventScroll = false,
-				touchStartY = initTop;
+				touchStartY,
+				touchStartX;
 			$(window).on({
+				'resize': resize,
 				'DOMMouseScroll mousewheel wheel': function(e) {
 					if (!enabled) return;
 					if (!preventScroll) {
@@ -355,18 +318,35 @@
 				'touchstart': function(e) {
 					if (!enabled) return;
 					touchStartY = e.originalEvent.touches[0].clientY;
+					touchStartX = e.originalEvent.touches[0].clientX;
 				},
 				'touchend': function(e) {
-					if (!enabled) return;
-					var touchEndY = e.originalEvent.changedTouches[0].clientY;
-					if(touchStartY > touchEndY+5) moveDown();
-					else if(touchStartY < touchEndY-5) moveUp();
+					var touchEndY = e.originalEvent.changedTouches[0].clientY,
+						touchEndX = e.originalEvent.changedTouches[0].clientX,
+						yDiff = touchStartY - touchEndY,
+						xDiff = touchStartX - touchEndX;
+					if ( Math.abs( yDiff ) > Math.abs( xDiff ) ) {
+				        if ( yDiff > 5 ) {
+				            moveDown();
+				        } else {
+				            moveUp();
+				        }                       
+				    }
+					touchStartY = null;
+					touchStartX = null;
 				},
 				'touchmove': function(e) {
-					if(e.preventDefault) { e.preventDefault(); }
+					if (enabled) {
+						if(e.preventDefault) { e.preventDefault(); }
+						return false;
+					}
 				}
 			});
 
+
+			/**
+			* Event handling for key-presses
+			*/
 			$(document).keydown(function(e) {
 				if (!enabled) return;
 				var tag = e.target.tagName.toLowerCase();
@@ -392,6 +372,18 @@
 				}
 			});
 
+
+			/**
+			* Event handler for unload
+			*/
+			$(window).unload(function() {
+				$(this).scrollTop(0);
+			});
+
+
+			/**
+			* Declare all external functions
+			*/
 			$.fn.rustic.moveUp = moveUp;
 			$.fn.rustic.moveDown = moveDown;
 			$.fn.rustic.moveTo = moveTo;
@@ -414,7 +406,7 @@
 					$(window).bind('scroll', updatePagination);
 				}
 			};
-
 		});
- 	};
+
+	};
  })(jQuery);
