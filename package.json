@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/Pratinav/rustic.js/issues"
   },
-  "homepage": "http://pratinav.tk/rustic.js/"
+  "homepage": "http://pratinav.tk/rustic.js/",
+  "dependencies": {
+    "jquery": "*"
+  }
 }
