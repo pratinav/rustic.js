@@ -2,9 +2,9 @@
   "name": "rustic.js",
   "main": "rustic.min.js",
   "version": "1.0.1",
-  "homepage": "http://pratinav.tk/rustic.js/",
+  "homepage": "https://github.com/pratinav/rustic.js",
   "authors": [
-    "Pratinav Bagla <pratinavbagla@gmail.com> (http://pratinav.tk)"
+    "Pratinav Bagla <pratinavbagla@gmail.com> (https://pratinav.github.io)"
   ],
   "description": "A simple albeit powerful jQuery plugin for creating elegant page by page scrolling.",
   "keywords": [
