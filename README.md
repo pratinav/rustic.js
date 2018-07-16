@@ -1,22 +1,22 @@
-#[rustic.js](http://pratinav.tk/rustic.js)
+# [rustic.js](http://pratinav.tk/rustic.js)
 
 
 A simple albeit powerful jQuery plugin for creating elegant page by page scrolling
 
 
-##Contribution and Issues
+## Contribution and Issues
 
 
 This plugin is early in development and new features will be added soon. Feel free to contribute by sending in [pull requests](http://github.com/Pratinav/rustic.js/pulls) and help me improve the plugin by pointing out bugs in the [issues page](http://github.com/Pratinav/rustic.js/issues).
 
 
-####Pull Requests
+#### Pull Requests
 
 
 Feel free to send in [pull requests](http://github.com/Pratinav/rustic.js/pulls) to improve the plugin or add new features. If you want to add a new feature please send in a clear and elaborate description and explanation of the working of it and a [codepen](http://codepen.io) or [jsFiddle](http://jsFiddle.net) demostrating your feature. Your feature has to be compatible with all other features and settings available.
 
 
-####Issues
+#### Issues
 
 
 Feel free to report any issues/problems with the plugin at [issues page](http://github.com/Pratinav/jCider/issues).
@@ -28,7 +28,7 @@ You may send me a mail describing your issue- [pratinavbagla@gmail.com](mailto:p
 **I will try to get to you as fast as possible but may not be able to get to you always.**
 
 
-##Installation
+## Installation
 
 
 - Download the files or use the CDN.
@@ -53,7 +53,7 @@ Like this:
 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.rustic.js/latest/rustic.min.js"></script>
 ```
 
-####Package Managers
+#### Package Managers
 
 
 For [Bower](http://bower.io)-
@@ -68,10 +68,10 @@ For [NPM](http://npmjs.com)-
 `npm install rustic.js`
 
 
-##Usage
+## Usage
 
 
-####HTML
+#### HTML
 
 
 The scroller uses a 2 layer structure in the HTML document. For, example-
@@ -103,13 +103,13 @@ The **wrapper** or **page elements** are not limited to any specific elements or
 **Only insert page elements in the wrapper.**
 
 
-####CSS
+#### CSS
 
 
 You will have to give your desired dimensions to the **page elements** yourself. The plugin supports variable height and width to the **page elements**. The [Pagination CSS](#pagination-css) option allows you to enable or disable the default pagination styles.
 
 
-####Basic Usage
+#### Basic Usage
 
 
 Put the following code in ```script``` tags in the ```head``` tag of your HTML document.
@@ -124,7 +124,7 @@ $(document).ready(function(){
 > Make sure to call ```.rustic()``` on the wrapper element. 
 
 
-####Advance Usage- Settings
+#### Advance Usage- Settings
 
 
 You can pass in multiple options as arguments for the `.rustic()` function. They are-
@@ -175,7 +175,7 @@ $('yourWrapperElementHere').rustic.js({
 
 
 
-####Default Callback
+#### Default Callback
 
 
 **Name:** `defaultCallback`
@@ -209,7 +209,7 @@ $(wrapperElement).rustic({
 
 
 
-####Specific Callbacks
+#### Specific Callbacks
 
 
 **Name:** `specificCallbacks`
@@ -253,7 +253,7 @@ $(wrapperElement).rustic({
 
 
 
-####Pagination CSS
+#### Pagination CSS
 
 
 **Name:** `paginationCss`
@@ -285,7 +285,7 @@ $(wrapperElement).rustic({
 
 
 
-####Specific pagination points
+#### Specific pagination points
 
 
 **Name:** `specificPaginationPoints`
@@ -316,7 +316,7 @@ $(wrapperElement).rustic({
 ```
 
 
-####Summary
+#### Summary
 
 
 By now your code must look similar to this-
@@ -363,13 +363,13 @@ $(document).ready(function() {
 ```
 
 
-##Functions
+## Functions
 
 
 The plugin provides functions other than `.rustic()` to provide more extensibility, to suit your requirements.
 
 
-####`rustic.moveUp()`
+#### `rustic.moveUp()`
 
 
 The `rustic.moveUp()` function makes the page transition upwards once.
@@ -393,7 +393,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.moveDown()`
+#### `rustic.moveDown()`
 
 
 The `rustic.moveDown()` function makes the page transition upwards once.
@@ -417,7 +417,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.moveTo(page)`
+#### `rustic.moveTo(page)`
 
 
 The `rustic.moveTo(page)` function makes the page transition to your desired page.
@@ -441,7 +441,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.hidePagination()`
+#### `rustic.hidePagination()`
 
 
 The `rustic.hidePagination()` function disables the pagination.
@@ -465,7 +465,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.showPagination()`
+#### `rustic.showPagination()`
 
 
 The `rustic.showPagination()` function enables the pagination.
@@ -489,7 +489,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.togglePagination()`
+#### `rustic.togglePagination()`
 
 
 The `rustic.togglePagination()` function toggles between enabling and disabling the pagination.
@@ -513,7 +513,7 @@ $(document).ready(function() {
 ```
 
 
-####`unrustic()`
+#### `unrustic()`
 
 
 The `unrustic()` function disables the page-transitions.
@@ -537,7 +537,7 @@ $(document).ready(function() {
 ```
 
 
-####`rerustic()`
+#### `rerustic()`
 
 
 The `rerustic()` function re-enables the page-transitions and can be used for changing settings.
@@ -565,7 +565,7 @@ $(document).ready(function() {
 ```
 
 
-####`rustic.toggle()`
+#### `rustic.toggle()`
 
 
 The `rustic.toggle()` function toggles between enabling and disabling the page-transitions.
@@ -589,12 +589,12 @@ $(document).ready(function() {
 ```
 
 
-##Dependencies
+## Dependencies
 
 
 [jQuery](https://jquery.com) - **Using the lastest version is recommended**
 
-##License
+## License
 
 
 Copyright (c) 2015 Pratinav Bagla
