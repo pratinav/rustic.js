@@ -1,19 +1,22 @@
-# [rustic.js](http://pratinav.tk/rustic.js)
+# rustic.js
 
 
 A simple albeit powerful jQuery plugin for creating elegant page by page scrolling
+
+**This plugin was written as a fun personal project when I was a kid. It has not
+been in development since 2015.**
 
 
 ## Contribution and Issues
 
 
-This plugin is early in development and new features will be added soon. Feel free to contribute by sending in [pull requests](http://github.com/Pratinav/rustic.js/pulls) and help me improve the plugin by pointing out bugs in the [issues page](http://github.com/Pratinav/rustic.js/issues).
+This plugin is early in development and new features will be added soon. Feel free to contribute by sending in [pull requests](http://github.com/pratinav/rustic.js/pulls) and help me improve the plugin by pointing out bugs in the [issues page](http://github.com/pratinav/rustic.js/issues).
 
 
 #### Pull Requests
 
 
-Feel free to send in [pull requests](http://github.com/Pratinav/rustic.js/pulls) to improve the plugin or add new features. If you want to add a new feature please send in a clear and elaborate description and explanation of the working of it and a [codepen](http://codepen.io) or [jsFiddle](http://jsFiddle.net) demostrating your feature. Your feature has to be compatible with all other features and settings available.
+Feel free to send in [pull requests](http://github.com/pratinav/rustic.js/pulls) to improve the plugin or add new features. If you want to add a new feature please send in a clear and elaborate description and explanation of the working of it and a [codepen](http://codepen.io) or [jsFiddle](http://jsFiddle.net) demostrating your feature. Your feature has to be compatible with all other features and settings available.
 
 
 #### Issues
@@ -22,11 +25,7 @@ Feel free to send in [pull requests](http://github.com/Pratinav/rustic.js/pulls)
 Feel free to report any issues/problems with the plugin at [issues page](http://github.com/Pratinav/jCider/issues).
 
 
-You may send me a mail describing your issue- [pratinavbagla@gmail.com](mailto:pratinavbagla@gmail.com).
-
-
-**I will try to get to you as fast as possible but may not be able to get to you always.**
-
+You may send me an email describing your issue.
 
 ## Installation
 
@@ -59,13 +58,13 @@ Like this:
 For [Bower](http://bower.io)-
 
 
-`bower install rustic.js`
+`bower install --save rustic.js`
 
 
 For [NPM](http://npmjs.com)-
 
 
-`npm install rustic.js`
+`npm install --save rustic.js`
 
 
 ## Usage
@@ -592,15 +591,9 @@ $(document).ready(function() {
 ## Dependencies
 
 
-[jQuery](https://jquery.com) - **Using the lastest version is recommended**
+[jQuery](https://jquery.com) - 1.x
 
 ## License
 
+Released under [The MIT License](http://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt).
 
-Copyright (c) 2015 Pratinav Bagla
-
-
-This content is released under [The MIT License](http://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt).
-
-
-**See a typo? Think docs can be improved? Send in a [pull request](http://github.com/Pratinav/rustic.js/pulls) or tell me in the [issues page](http://github.com/Pratinav/rustic.js/issues).**

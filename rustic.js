@@ -1,7 +1,7 @@
 /*!
- * rustic.js 1.0.4  (http://pratinav.tk/rustic.js/)
- * (c) 2015 Pratinav Bagla (http://pratinav.tk)
- * Released under the MIT license (https://github.com/Pratinav/rustic.js/blob/master/LICENSE.txt)
+ * rustic.js v1.0.5 
+ * (c) 2015 Pratinav Bagla (https://www.pratinavbagla.com/)
+ * Released under the MIT license (https://github.com/pratinav/rustic.js/blob/master/LICENSE.txt)
  **/
 
  (function($) {
